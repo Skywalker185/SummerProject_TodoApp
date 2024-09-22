@@ -1,0 +1,72 @@
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="create-task-from-template">
+    <h1>{{ template.title }}からタスクを作成</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+
+        <!-- タイトル -->
+        <div class="form-title">
+            <label for="title">タイトル</label>
+            <input type="text" name="title" id="title" class="form-control" value="{{ template.title }}" required>
+        </div>
+
+        <!-- サブタスク -->
+        <div class="form-group form-sub">
+            <label for="subtitle1">サブタスク</label>
+            <input type="text" name="subtitle1" id="subtitle1" class="form-control" value="{{ template.subtitle1 }}">
+        </div>
+        <div class="form-group form-sub">
+            <label for="subtitle2"></label>
+            <input type="text" name="subtitle2" id="subtitle2" class="form-control" value="{{ template.subtitle2 }}">
+        </div>
+        <div class="form-group form-sub">
+            <label for="subtitle3"></label>
+            <input type="text" name="subtitle3" id="subtitle3" class="form-control" value="{{ template.subtitle3 }}">
+        </div>
+        <div class="form-group form-sub">
+            <label for="subtitle4"></label>
+            <input type="text" name="subtitle4" id="subtitle4" class="form-control" value="{{ template.subtitle4 }}">
+        </div>
+        <div class="form-group form-sub">
+            <label for="subtitle5"></label>
+            <input type="text" name="subtitle5" id="subtitle5" class="form-control" value="{{ template.subtitle5 }}">
+        </div>
+
+        <!-- カテゴリ -->
+        <div class="form-group form-category">
+            <label for="category">カテゴリ</label>
+            <select name="category" id="category" class="form-control">
+                <option value="国" {% if template.category == '国' %}selected{% endif %}>国語</option>
+                <option value="数" {% if template.category == '数' %}selected{% endif %}>数学</option>
+                <option value="英" {% if template.category == '英' %}selected{% endif %}>英語</option>
+                <option value="理" {% if template.category == '理' %}selected{% endif %}>理科</option>
+                <option value="社" {% if template.category == '社' %}selected{% endif %}>社会</option>
+            </select>
+        </div>
+
+        <!-- 優先度 -->
+        <div class="form-group form-priority">
+            <label for="priority">優先度</label>
+            <select name="priority" id="priority" class="form-control">
+                <option value="1" {% if template.priority == 1 %}selected{% endif %}>★☆☆ (低い)</option>
+                <option value="2" {% if template.priority == 2 %}selected{% endif %}>★★☆ (中くらい)</option>
+                <option value="3" {% if template.priority == 3 %}selected{% endif %}>★★★ (高い)</option>
+            </select>
+        </div>
+
+        <!-- 提出ボタン -->
+        <button type="submit" class="btn btn-primary">タスクを作成</button>
+    </form>
+    <!-- 削除ボタン（ゴミ箱アイコン） -->
+    <form method="post" action="{% url 'delete_template' pk=template_pk %}">
+        {% csrf_token %}
+        <button type="submit" class="delete-button">削除</button>
+    </form>
+</div>
+
+{% endblock content %}

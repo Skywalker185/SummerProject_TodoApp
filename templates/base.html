@@ -1,0 +1,58 @@
+
+
+
+{% load custom_filters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>  <!--ページの仕様を記述する場所 -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanDo</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="{% static 'todo/css/reset.css' %}">
+    <link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'todo/css/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="logout">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">ログアウト</button>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="menu">
+            <h1>カテゴリ</h1>
+            <ul>
+                <li><a href="{% url 'list' %}" class="alltask-link">全タスク</a></li>
+                <li><a href="{% url 'category_tasks' '国' %}" class="red-link">国語</a></li>
+                <li><a href="{% url 'category_tasks' '数' %}" class="blue-link">数学</a></li>
+                <li><a href="{% url 'category_tasks' '英' %}" class="violet-link">英語</a></li>
+                <li><a href="{% url 'category_tasks' '理' %}" class="green-link">理科</a></li>
+                <li><a href="{% url 'category_tasks' '社' %}" class="yellow-link">社会</a></li>
+            </ul>
+            <h1>テンプレート</h1>
+            <ul>
+                {% for template in templates %}
+                    <li>
+                        <a href="{% url 'create_task_from_template' template.id %}">{{ template.title }}</a>
+                    </li>
+                {% empty %}
+                    <li>テンプレートはまだありません</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% block content %}{% endblock content %}
+    </div>
+
+</body>
+</html>

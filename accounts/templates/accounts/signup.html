@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>  <!--ページの仕様を記述する場所 -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanDo</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="{% static 'todo/css/reset.css' %}">
+    <link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'todo/css/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    {% block content %}
+        <form method="post" class="account-form">
+        <h1>アカウント作成</h1>
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="ユーザーID" required>
+            <input type="password" name="password1" placeholder="パスワード" required>
+            <input type="password" name="password2" placeholder="パスワード確認" required>
+            <small>パスワードは8文字以上で設定してください。</small>
+            {% if form.errors %}
+                <span class="error-message">利用できないユーザーIDやパスワードの可能性があります。入力内容を再度ご確認ください。</span>
+            {% endif %}
+            <button type="submit">アカウント作成</button>
+        </form>
+    {% endblock %}
+</body>

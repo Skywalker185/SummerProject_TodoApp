@@ -1,0 +1,153 @@
+
+
+
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+{% block content %}
+<div class="forms-container">
+    <div class="add-task-form">
+        <form method="post" action="/">
+            {% csrf_token %}
+            <div class="form-title">
+                <label>
+                    <input type="text" name="title" required placeholder="メインタスク">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="text" name="subtitle1" placeholder="サブタスク">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="text" name="subtitle2" placeholder="サブタスク">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="text" name="subtitle3" placeholder="サブタスク">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="text" name="subtitle4" placeholder="サブタスク">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="text" name="subtitle5" placeholder="サブタスク">
+                </label>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="category">カテゴリ</label>
+                    <select name="category" id="category" placeholder="カテゴリ">
+                        <option value="国">国語</option>
+                        <option value="数">数学</option>
+                        <option value="英">英語</option>
+                        <option value="理">理科</option>
+                        <option value="社">社会</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="priority">優先度</label>
+                    <select name="priority" id="priority">
+                        <option value="1">★☆☆ (低い)</option>
+                        <option value="2">★★☆ (中くらい)</option>
+                        <option value="3">★★★ (高い)</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" name="task_submit" class="btn">タスクを追加</button>
+        </form>
+    </div>
+    <div class="add-template-form">
+        <form method="post" action="/">
+            {% csrf_token %}
+            <div class="form-title">
+                <label>
+                    <input type="text" name="title" required placeholder="メインタスク">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="text" name="subtitle" placeholder="サブタスク">
+                </label>
+                <label>
+                    <input type="text" name="subtitle" placeholder="サブタスク">
+                </label>
+                <label>
+                    <input type="text" name="subtitle" placeholder="サブタスク">
+                </label>
+                <label>
+                    <input type="text" name="subtitle" placeholder="サブタスク">
+                </label>
+                <label>
+                    <input type="text" name="subtitle" placeholder="サブタスク">
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="category">カテゴリ</label>
+                <select name="category" id="category">
+                    <option value="国">国語</option>
+                    <option value="数">数学</option>
+                    <option value="英">英語</option>
+                    <option value="理">理科</option>
+                    <option value="社">社会</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="priority">優先度</label>
+                <select name="priority" id="priority">
+                    <option value="1">★☆☆ (低い)</option>
+                    <option value="2">★★☆ (中くらい)</option>
+                    <option value="3">★★★ (高い)</option>
+                </select>
+            </div>
+            <button type="submit" name="template_submit" class="btn">テンプレートを追加</button>
+        </form>
+    </div>
+</div>
+<ul class="todo-list">
+    <!-- Djangoテンプレートタグを使用してタスクをループ -->
+    {% for task in tasks %}
+    <li class="todo-item {% if task.is_completed %}completed{% endif %}">
+        <div class="task-info">
+            <!-- チェックボックスをカテゴリの左に追加 -->
+            <form action="{% url 'toggle_task_completion' task.id %}" method="post" class="task-checkbox-form" style="display: inline;">
+                {% csrf_token %}
+                <input type="checkbox" class="task-checkbox" {% if task.is_completed %}checked{% endif %} onchange="this.form.submit()">
+            </form>
+
+            <!-- カテゴリの表示 -->
+            <span class="category-label">{{ task.category }}</span>
+
+            <!-- タイトル表示 -->
+            <strong class="task-title">{{ task.title }}</strong>
+        </div>
+
+        <div class="task-actions">
+            <!-- 重要度を星で表示 -->
+            <span class="priority-stars">
+                {% for i in "★"|repeat:task.priority %}
+                <span class="star-filled">★</span>
+                {% endfor %}
+            </span>
+
+            <!-- 編集ボタン（鉛筆アイコン） -->
+            <a href="{% url 'update_task' task.id %}" class="edit-button">
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+
+            <!-- 削除ボタン（ゴミ箱アイコン） -->
+            <a href="{% url 'delete_task' task.id %}" class="delete-button">
+                <i class="fas fa-trash-alt"></i>
+            </a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+
+
+{% endblock content %}

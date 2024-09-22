@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<div class="task-list-container">
+    <h1>{{ category }}のタスク一覧</h1>
+    <ul class="todo-list">
+        {% for task in tasks %}
+        <li class="todo-item {% if task.is_completed %}completed{% endif %}">
+            <div class="task-info">
+                <!-- カテゴリの表示 -->
+                <span class="category-label category-{{ task.category|lower }}">[{{ task.category }}]</span>
+
+                <!-- タイトルの表示 -->
+                <strong>{{ task.title }}</strong>
+            </div>
+            <div class="task-actions">
+                <!-- 重要度を星で表示 -->
+                <span class="priority-stars">
+                    {% for i in "★"|repeat:task.priority %}
+                    <span class="star-filled">★</span>
+                    {% endfor %}
+                </span>
+                <!-- 編集ボタン（鉛筆アイコン） -->
+                <a href="{% url 'update_task' task.id %}" class="edit-button">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+                <!-- 削除ボタン（ゴミ箱アイコン） -->
+                <a href="{% url 'delete_task' task.id %}" class="delete-button">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </div>
+        </li>
+        {% empty %}
+        <li class="todo-item">
+            <p>タスクがありません</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

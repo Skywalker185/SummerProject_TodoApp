@@ -1,0 +1,77 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="edit-task-form">
+    <h1>タスクを編集</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-title">
+            <label for="title"></label>
+                <input type="text" name="title" id="title" value="{{ task.title }}" required >
+        </div>
+        <div class="form-group">
+            <label for="subtitle"></label>
+            <div class="form-group custom-checkbox">
+                <label>
+                    <input type="checkbox" name="subtitle1_completed" id="subtitle1_completed" {% if task.subtitle1_completed %}checked{% endif %}> <!-- 完了チェックボックス -->
+                    <span class="checkmark"></span> <!-- カスタムチェックボックス -->
+                </label>
+                <input type="text" name="subtitle1" id="subtitle1" class="form-control" value="{{ task.subtitle1 }}" placeholder="サブタスク 1">
+            </div>
+            <div class="form-group custom-checkbox">
+                <label>
+                    <input type="checkbox" name="subtitle2_completed" id="subtitle2_completed" {% if task.subtitle2_completed %}checked{% endif %}> <!-- 完了チェックボックス -->
+                    <span class="checkmark"></span> <!-- カスタムチェックボックス -->
+                </label>
+                <input type="text" name="subtitle2" id="subtitle2" class="form-control" value="{{ task.subtitle2 }}" placeholder="サブタスク 2">
+            </div>
+            <div class="form-group custom-checkbox">
+                <label>
+                    <input type="checkbox" name="subtitle3_completed" id="subtitle3_completed" {% if task.subtitle3_completed %}checked{% endif %}> <!-- 完了チェックボックス -->
+                    <span class="checkmark"></span> <!-- カスタムチェックボックス -->
+                </label>
+                <input type="text" name="subtitle3" id="subtitle3" class="form-control" value="{{ task.subtitle3 }}" placeholder="サブタスク 3">
+            </div>
+            <div class="form-group custom-checkbox">
+                <label>
+                    <input type="checkbox" name="subtitle4_completed" id="subtitle4_completed" {% if task.subtitle4_completed %}checked{% endif %}> <!-- 完了チェックボックス -->
+                    <span class="checkmark"></span> <!-- カスタムチェックボックス -->
+                </label>
+                <input type="text" name="subtitle4" id="subtitle4" class="form-control" value="{{ task.subtitle4 }}" placeholder="サブタスク 4">
+            </div>
+            <div class="form-group custom-checkbox">
+                <label>
+                    <input type="checkbox" name="subtitle5_completed" id="subtitle5_completed" {% if task.subtitle5_completed %}checked{% endif %}> <!-- 完了チェックボックス -->
+                    <span class="checkmark"></span> <!-- カスタムチェックボックス -->
+                </label>
+                <input type="text" name="subtitle5" id="subtitle5" class="form-control" value="{{ task.subtitle5 }}" placeholder="サブタスク 5">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="category">カテゴリ:</label>
+                <select name="category" id="category">
+                    <option value="" {% if not task.category %}selected{% endif %}>カテゴリを選択</option>
+                    <option value="国" {% if task.category == '国' %}selected{% endif %}>国語</option>
+                    <option value="数" {% if task.category == '数' %}selected{% endif %}>数学</option>
+                    <option value="英" {% if task.category == '英' %}selected{% endif %}>英語</option>
+                    <option value="理" {% if task.category == '理' %}selected{% endif %}>理科</option>
+                    <option value="社" {% if task.category == '社' %}selected{% endif %}>社会</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="priority">重要度:</label>
+                <select name="priority" id="priority">
+                    <option value="1" {% if task.priority == 1 %}selected{% endif %}>★☆☆ (低い)</option>
+                    <option value="2" {% if task.priority == 2 %}selected{% endif %}>★★☆ (中くらい)</option>
+                    <option value="3" {% if task.priority == 3 %}selected{% endif %}>★★★ (高い)</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">保存</button>
+    </form>
+</div>
+{% endblock %}
