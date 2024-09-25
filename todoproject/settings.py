@@ -28,7 +28,7 @@ DEBUG = env('DEBUG')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['todo.onrender.com']
+ALLOWED_HOSTS = ['django-render-qfuj.onrender.com']
 
 
 # Application definition
@@ -126,6 +126,12 @@ STATIC_URL = 'static/'
 
 # 静的ファイルのルートを設定
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#DEBUG = False の場合、Django 自体は静的ファイルを提供しません。
+# そのため、collectstatic を実行して静的ファイルを一箇所にまとめ、
+# Webサーバー（例: Nginx）がこれらのファイルを提供できるようにする必要があります。
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
