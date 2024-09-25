@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import environ
 env = environ.Env()
 environ.Env.read_env()
-from decouple import config
+
 import dj_database_url
 
 
